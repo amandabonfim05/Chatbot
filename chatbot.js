@@ -73,7 +73,7 @@ mongoose.connect(process.env.MONGO_URI)
     client.on('message', async msg => {
         console.log('Mensagem recebida de:', msg.from, 'corpo:', msg.body);
 
-        if (msg.body.match(/dia|tarde|noite|oi|olá|ola/i) && msg.from.endsWith('@c.us')) {
+        if (msg.body.match(/dia|tarde|noite|oi|olá|ola|procont/i) && msg.from.endsWith('@c.us')) {
             const chat = await msg.getChat();
             await delay(1000); 
             await chat.sendStateTyping(); 
@@ -96,13 +96,15 @@ mongoose.connect(process.env.MONGO_URI)
             await delay(1000);
             await client.sendMessage(msg.from,'Aviso prévio: \n\n7 - Aviso prévio trabalhado\n8 - Aviso prévio indenizado');
             
+        }
             if (msg.body === '7' && msg.from.endsWith('@c.us')) {
                 const chat = await msg.getChat();
                 await delay(1000);
                 await chat.sendStateTyping();
                 await delay(1000);
                 await client.sendMessage(msg.from,'Informe nome do funcionário, data de início do aviso, e observações necessárias.');
-                await client.sendMessage(msg.from,'Espere alguns instantes que uma atendente irá falar com o senhor(a)');
+                await delay(1000);
+                await client.sendMessage(msg.from,'Em breve um atendente irá falar com o(a) senhor(a)');
             }
             
             if (msg.body === '8' && msg.from.endsWith('@c.us')) {
@@ -111,9 +113,9 @@ mongoose.connect(process.env.MONGO_URI)
                 await chat.sendStateTyping();
                 await delay(1000);
                 await client.sendMessage(msg.from,'Informe nome do funcionário, data da demissão, e observações necessárias.');
-                await client.sendMessage(msg.from,'Espere alguns instantes que uma atendente irá falar com o senhor(a)');
+                await delay(1000);
+                await client.sendMessage(msg.from,'Em breve um atendente irá falar com o(a) senhor(a)');
             }
-        }
 
         // ----------------- SOLICITAÇÃO DE FÉRIAS -----------------
         if (msg.body === '2' && msg.from.endsWith('@c.us')) {
@@ -130,6 +132,11 @@ mongoose.connect(process.env.MONGO_URI)
                 await client.sendMessage(msg.from, `A data escolhida (${data}) não pode ser utilizada pois cai em um feriado ou até 2 dias antes de um feriado. Por favor, informe uma nova data (Formato: dd/MM/yyyy).`);
             } else {
                 await client.sendMessage(msg.from, `Data registrada com sucesso: ${data}. Vamos prosseguir com a solicitação de férias.`);
+                await delay(1000);
+                await client.sendMessage(msg.from, 'Qual o nome do funcionário?');
+                await delay(1000);
+                await client.sendMessage(msg.from, 'Em breve enviaremos a documentação solicitada.');
+        
             }
         }
 
@@ -140,6 +147,8 @@ mongoose.connect(process.env.MONGO_URI)
             await chat.sendStateTyping();
             await delay(1000);
             await client.sendMessage(msg.from, 'Informe qual o imposto e a data para pagamento.');
+            await delay(1000);
+            await client.sendMessage(msg.from,'Em breve um atendente irá falar com o(a) senhor(a)');
         }
 
         // ----------------- SOLICITAÇÃO DE FATURAMENTO -----------------
@@ -148,7 +157,9 @@ mongoose.connect(process.env.MONGO_URI)
             await delay(1000);
             await chat.sendStateTyping();
             await delay(1000);
-            await client.sendMessage(msg.from, 'Espere alguns instantes que uma atendente irá falar com o senhor(a)');
+            await client.sendMessage(msg.from, 'Qual o período do faturamento?');
+            await delay(1000);
+            await client.sendMessage(msg.from,'Em breve enviaremos a documentação solicitada.');
         }
 
         // ----------------- FALAR COM ATENDENTE -----------------
@@ -157,7 +168,7 @@ mongoose.connect(process.env.MONGO_URI)
             await delay(1000);
             await chat.sendStateTyping();
             await delay(1000);
-            await client.sendMessage(msg.from, 'Espere alguns instantes que uma atendente irá falar com o senhor(a)');
+            await client.sendMessage(msg.from, 'Em breve um atendente irá falar com o(a) senhor(a)');
         }
 
         // ----------------- CANCELAMENTO -----------------
