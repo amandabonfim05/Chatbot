@@ -97,6 +97,7 @@ mongoose.connect(process.env.MONGO_URI)
             await client.sendMessage(msg.from,'Aviso prévio: \n\n7 - Aviso prévio trabalhado\n8 - Aviso prévio indenizado');
             
         }
+        //Colocar para voltar ao inicio no futuro
             if (msg.body === '7' && msg.from.endsWith('@c.us')) {
                 const chat = await msg.getChat();
                 await delay(1000);
